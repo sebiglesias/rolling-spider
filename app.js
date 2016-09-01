@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//  Rolling spider library
+var RollingSpider   = require('rolling-spider');
+var rollingSpider   = new RollingSpider();
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -24,6 +28,34 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+//  Acciones del drone
+app.get('/:action', function (req, res) {
+    let action = req.params.action
+    if (action === 'conectar') {
+        console.log('Iniciar drone');
+        rollingSpider.connect(function (e) {
+            console.log('Drone conectado');
+            rollingSpider.setup(function () {
+                rollingSpider.flatTrim();
+                rollingSpider.startPing();
+                rollingSpider.flatTrim();
+            });
+        });
+    } else
+    if (action === 'despegar') {
+      console.log('Drone listo para volar');
+      rollingSpider.takeOff(function () {});
+    } else 
+    if (action === 'aterrizar') {
+        rollingSpider.land(function () {
+            console.log('Aterrizando');
+            process.exit(0);
+        });
+    } else {
+        console.log('Ninguna acción definida');
+    }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
