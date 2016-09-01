@@ -7,20 +7,37 @@
 <!-- Latest compiled JavaScript -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-    function startConnection() {
-        var RollingSpider = require('rolling-spider');
-        var rollingSpider = new RollingSpider();
-        rollingSpider.connect(function () {
-        rollingSpider.setup(function () {
-            rollingSpider.startPing();
+    // modo estricto de js (siempre lo uso, para buenas practicas)
+    'use strict'
+    function startConnection () {
+        //  Iniciando la conexión
+        var conectar = $.get('/conectar', function () {}, 'json')
+        conectar.done(function (request) {
+            console.log(request)
         })
-    });
-}
-    function takeOff(){
-        rollingSpider.takeOff();
+        conectar.fail(function (err) {
+            console.error(err)
+        })
     }
-    function land(){
-        rollingSpider.land();
+    function takeOff () {
+        //  Para que inicie
+        var despegar = $.get('/despegar', function () {}, 'json')
+        despegar.done(function (request) {
+            console.log(request)
+        })
+        despegar.fail(function (err) {
+            console.error(err)
+        })
+    }
+    function land () {
+        //  Para que aterrice 
+        var aterrizar = $.get('/aterrizar', function () {}, 'json')
+        aterrizar.done(function (request) {
+            console.log(request)
+        })
+        aterrizar.fail(function (err) {
+            console.error(err)
+        })
     }
 </script>
 <header class="masthead">
@@ -43,7 +60,7 @@
             <ul class="nav navbar-nav">
                 <li><button type="button" class="btn btn-warning" onclick="startConnection()">CONNECT</button></li>
                 <li><button type="button" class="btn btn-primary" onclick="takeOff()">FLY</button></li>
-                <li><button type="button" class="btn btn-danger">STOP</button></li>
+                <li><button onclick="land()" type="button" class="btn btn-danger">STOP</button></li>
                 <li><button type="button" class="btn btn-info">FLIP</button></li>
             </ul>
     </div><!--/.nav-collapse -->
