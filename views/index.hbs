@@ -1,0 +1,119 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="script" href="http://requirejs.org/docs/release/2.2.0/minified/require.js">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    function startConnection() {
+        var RollingSpider = require('rolling-spider');
+        var rollingSpider = new RollingSpider();
+        rollingSpider.connect(function () {
+        rollingSpider.setup(function () {
+            rollingSpider.startPing();
+        })
+    });
+}
+    function takeOff(){
+        rollingSpider.takeOff();
+    }
+    function land(){
+        rollingSpider.land();
+    }
+</script>
+<header class="masthead">
+    <div class="container">
+        <h1 class="main-logo pull-left">Dron Bluetooth- test</h1>
+    </div>
+</header>
+<!-- Begin Navbar -->
+<hr>
+<div id="nav">
+    <div class="container">
+        <div class="btn-group" role="group">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+            <ul class="nav navbar-nav">
+                <li><button type="button" class="btn btn-warning" onclick="startConnection()">CONNECT</button></li>
+                <li><button type="button" class="btn btn-primary" onclick="takeOff()">FLY</button></li>
+                <li><button type="button" class="btn btn-danger">STOP</button></li>
+                <li><button type="button" class="btn btn-info">FLIP</button></li>
+            </ul>
+    </div><!--/.nav-collapse -->
+</div>
+<hr class="">
+<div class="container-fluid bg-1 text-center">
+    <div class="row purple">
+        <div class="panel panel-default col-sm-5">
+            <div class="panel panel-heading">
+                <h4>Distance Forward:
+                <output id="output1">20</output>
+                    </h4>
+            </div>
+            <div class="panel panel-body">
+                <input type="range" name="costPerDay" class="range" id="rangeSlider1" value="20" oninput="proRangeSlider(this.id, 'output1', 'orange')">
+            </div>
+            <div class="panel-footer clearfix center">
+                <button type="button" class="btn btn-success">Move Forward</button>
+            </div>
+    </div>
+    <div class="panel panel-default col-sm-5">
+        <div class="panel panel-heading">
+            <h4>Distance Backwards:
+            <output id="output3">20</output>
+            </h4>
+        </div>
+        <div class="panel panel-body">
+            <input type="range" name="costPerDay" class="range" id="rangeSlider3" value="20" oninput="proRangeSlider(this.id, 'output3', 'orange')">
+        </div>
+        <div class="panel-footer clearfix center">
+            <button type="button" class="btn btn-success">Move Backwards</button>
+        </div>
+    </div>
+    </div>
+<div class="row">
+    <div class="panel panel-default col-sm-5">
+        <div class="panel panel-heading">
+            <h4>Turn 45 degrees left</h4>
+        </div>
+        <div class="panel panel-body">
+            <button type="button" class="btn btn-success">Turn Left</button>
+        </div>
+    </div>
+    <div class="panel panel-default col-sm-5">
+        <div class="panel panel-heading">
+            <h4>Turn 45 degrees right</h4>
+        </div>
+        <div class="panel panel-body">
+            <button type="button" class="btn btn-success">Turn Right</button>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+
+function proRangeSlider(sliderid, outputid, colorclass) {
+        var x = document.getElementById(sliderid).value;
+        document.getElementById(outputid).innerHTML = x;
+        document.getElementById(sliderid).setAttribute('class', colorclass);
+
+        updateTotal();
+}
+var total = 0;
+function updateTotal() {
+        var list= document.getElementsByClassName("range");
+        [].forEach.call(list, function(el) {
+            console.log(el.value);
+            total += parseInt(el.value);
+        });
+        document.getElementById("n_total").innerHTML = total;
+
+}
+</script>
