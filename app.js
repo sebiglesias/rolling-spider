@@ -44,8 +44,8 @@ app.get('/:action', function (req, res) {
         });
     } else
     if (action === 'despegar') {
-      console.log('Drone listo para volar');
       rollingSpider.takeOff(function () {});
+        console.log('Drone despego');
     } else 
     if (action === 'aterrizar') {
         rollingSpider.land(function () {
